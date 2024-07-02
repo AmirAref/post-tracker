@@ -30,7 +30,6 @@ async def get_viewstate(client: AsyncClient, tracking_code: str) -> tuple[str, s
 
 async def get_tracking_post(client: AsyncClient, tracking_code: str):
     url = f"https://tracking.post.ir/search.aspx?id={tracking_code}"
-    # url = "https://tracking.post.ir"
 
     # get view state value
     viewstate, event_validation = await get_viewstate(

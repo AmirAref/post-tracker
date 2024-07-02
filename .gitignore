@@ -1,5 +1,6 @@
 # custom
 *.html
+poetry.lock
 
 
 # Byte-compiled / optimized / DLL files
