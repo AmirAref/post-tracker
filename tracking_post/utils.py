@@ -1,6 +1,7 @@
 from httpx import AsyncClient
 from bs4 import BeautifulSoup
 import bs4
+from user_agent import generate_user_agent
 
 
 async def get_viewstate(client: AsyncClient, tracking_code: str) -> tuple[str, str]:
@@ -32,6 +33,8 @@ async def get_tracking_post(client: AsyncClient, tracking_code: str):
     viewstate, event_validation = await get_viewstate(
         client=client, tracking_code=tracking_code
     )
+    # get random user agent
+    user_agent = generate_user_agent()
 
     payload = {
         "scripmanager1": "pnlMain|btnSearch",
@@ -62,7 +65,7 @@ async def get_tracking_post(client: AsyncClient, tracking_code: str):
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-origin",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:127.0) Gecko/20100101 Firefox/127.0",
+        "User-Agent": user_agent,
         "X-MicrosoftAjax": "Delta=true",
         "X-Requested-With": "XMLHttpRequest",
     }
