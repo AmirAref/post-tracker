@@ -1,9 +1,6 @@
 from httpx import AsyncClient
-import asyncio
 from bs4 import BeautifulSoup
 import bs4
-import sys
-import json
 
 
 async def get_viewstate(client: AsyncClient, tracking_code: str) -> tuple[str, str]:
@@ -52,34 +49,23 @@ async def get_tracking_post(client: AsyncClient, tracking_code: str):
         "": "",
     }
 
-    headers = [
-        {"name": "Accept", "value": "*/*"},
-        {"name": "Accept-Encoding", "value": "gzip, deflate, br, zstd"},
-        {"name": "Accept-Language", "value": "en-US,en;q=0.5"},
-        {"name": "Cache-Control", "value": "no-cache"},
-        {"name": "Connection", "value": "keep-alive"},
-        {
-            "name": "Content-Type",
-            "value": "application/x-www-form-urlencoded; charset=utf-8",
-        },
-        {"name": "Host", "value": "tracking.post.ir"},
-        {"name": "Origin", "value": "https://tracking.post.ir"},
-        {
-            "name": "Referer",
-            "value": f"https://tracking.post.ir/search.aspx?id={tracking_code}",
-        },
-        {"name": "Sec-Fetch-Dest", "value": "empty"},
-        {"name": "Sec-Fetch-Mode", "value": "cors"},
-        {"name": "Sec-Fetch-Site", "value": "same-origin"},
-        {
-            "name": "User-Agent",
-            "value": "Mozilla/5.0 (X11; Linux x86_64; rv:127.0) Gecko/20100101 Firefox/127.0",
-        },
-        {"name": "X-MicrosoftAjax", "value": "Delta=true"},
-        {"name": "X-Requested-With", "value": "XMLHttpRequest"},
-    ]
-
-    headers = [(h["name"], h["value"]) for h in headers]
+    headers = {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+        "Host": "tracking.post.ir",
+        "Origin": "https://tracking.post.ir",
+        "Referer": f"https://tracking.post.ir/search.aspx?id={tracking_code}",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:127.0) Gecko/20100101 Firefox/127.0",
+        "X-MicrosoftAjax": "Delta=true",
+        "X-Requested-With": "XMLHttpRequest",
+    }
 
     response = await client.post(
         url,
@@ -88,6 +74,7 @@ async def get_tracking_post(client: AsyncClient, tracking_code: str):
         follow_redirects=True,
     )
 
+    # parse the content
     content = response.text
     data = parse_tracking_result(content=content)
 
@@ -105,15 +92,3 @@ def parse_tracking_result(content: str):
             row_items = [item.text for item in row_items]
             all_items.append(row_items)
     return all_items
-
-
-async def main():
-    tracking_code = sys.argv[1]
-    async with AsyncClient() as client:
-        data = await get_tracking_post(client=client, tracking_code=tracking_code)
-
-    print(json.dumps(data, indent=3, ensure_ascii=False))
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
