@@ -2,6 +2,8 @@ from httpx import AsyncClient
 import asyncio
 from bs4 import BeautifulSoup
 import bs4
+import sys
+import json
 
 
 async def get_viewstate(client: AsyncClient, tracking_code: str) -> tuple[str, str]:
@@ -61,10 +63,6 @@ async def get_tracking_post(client: AsyncClient, tracking_code: str):
             "name": "Content-Type",
             "value": "application/x-www-form-urlencoded; charset=utf-8",
         },
-        {
-            "name": "Cookie",
-            "value": "ASP.NET_SessionId=nh5qfwlej4pktfki4g3un1js; BIGipServerPool_Farm_126=2120548618.20480.0000",
-        },
         {"name": "Host", "value": "tracking.post.ir"},
         {"name": "Origin", "value": "https://tracking.post.ir"},
         {
@@ -91,15 +89,31 @@ async def get_tracking_post(client: AsyncClient, tracking_code: str):
         follow_redirects=True,
     )
 
-    return response.text
+    content = response.text
+    data = parse_tracking_result(content=content)
+
+    return data
+
+
+def parse_tracking_result(content: str):
+    soup = BeautifulSoup(content, "html.parser")
+    rows = soup.find_all("div", {"class": "row"})
+    all_items = []
+    for row in rows:
+        row_items = row.select(".newtddata, .newtdheader")
+        # row_items = row.find_all("div", {"class": "newtddata"})
+        if row_items:
+            row_items = [item.text for item in row_items]
+            all_items.append(row_items)
+    return all_items
 
 
 async def main():
-    tracking_code = "123456"
+    tracking_code = sys.argv[1]
     async with AsyncClient() as client:
         data = await get_tracking_post(client=client, tracking_code=tracking_code)
 
-    print(data)
+    print(json.dumps(data, indent=3, ensure_ascii=False))
 
 
 if __name__ == "__main__":
