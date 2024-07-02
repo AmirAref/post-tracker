@@ -83,12 +83,34 @@ async def get_tracking_post(client: AsyncClient, tracking_code: str):
 
 def parse_tracking_result(content: str):
     soup = BeautifulSoup(content, "html.parser")
-    rows = soup.find_all("div", {"class": "row"})
-    all_items = []
+    data = {"tracking": [], "parcel": []}
+
+    # get tracking data
+    tracking_info = soup.find(attrs={"id": "pnlResult"})
+    if not (tracking_info, bs4.Tag):
+        raise ValueError("can't find traking info element.")
+    # get all rows
+    rows = tracking_info.find_all("div", {"class": "row"})
+    # get items of each row
     for row in rows:
         row_items = row.select(".newtddata, .newtdheader")
-        # row_items = row.find_all("div", {"class": "newtddata"})
+        # check is not empty
         if row_items:
             row_items = [item.text for item in row_items]
-            all_items.append(row_items)
-    return all_items
+            data["tracking"].append(row_items)
+
+    # get parcel info
+    parcel_info = soup.find(attrs={"id": "pParcelInfo"})
+    if not (parcel_info, bs4.Tag):
+        raise ValueError("can't find parcel info element.")
+    # get all rows
+    parcel_info_rows = parcel_info.find_all("div", {"class": "row"})
+    # get items of each row
+    for row in parcel_info_rows:
+        row_items = row.select(".newcoldata, .newcolheader")
+        # check is not empty
+        if row_items:
+            row_items = [item.text for item in row_items]
+            data["parcel"].append(row_items)
+
+    return data
