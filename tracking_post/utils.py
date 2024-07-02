@@ -83,7 +83,7 @@ async def get_tracking_post(client: AsyncClient, tracking_code: str):
 
 def parse_tracking_result(content: str):
     soup = BeautifulSoup(content, "html.parser")
-    data = {"tracking": [], "parcel": []}
+    data = {"parcel": [], "tracking": []}
 
     # get tracking data
     tracking_info = soup.find(attrs={"id": "pnlResult"})
@@ -112,5 +112,8 @@ def parse_tracking_result(content: str):
         if row_items:
             row_items = [item.text for item in row_items]
             data["parcel"].append(row_items)
+
+    # reverse order of tacking
+    data["tracking"].reverse()
 
     return data
