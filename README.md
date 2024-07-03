@@ -1,7 +1,7 @@
 # Post Tracker
 
 ## Run the program
-1. first, **clone** this repository and then go to the project directory.  
+1. first, **clone** this repository and then go to the project directory.
 
 2. after you cloned the repository, you have to install the **dependencies**, you need to have installed the [poetry](https://python-poetry.org/) dependency manager in your machine, then run the following command :
 ```bash
@@ -17,7 +17,7 @@ poetry install
 
 
 ## TODO:
-- [ ] create models to better parsing the data.
-- [ ] use dataframes (or another way) to strucure the data.
-- [ ] create dmenu (or fzf menu) to save tracking codes in local cache and select in future program's runs.
+- [x] create models to better parsing the data.
 - [ ] create python telegram bot.
+- [ ] create dmenu (or fzf menu) to save tracking codes in local cache and select in future program's runs.
+- [ ] ~use dataframes (or another way) to strucure the data.~
