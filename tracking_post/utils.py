@@ -1,7 +1,9 @@
-from httpx import AsyncClient
-from bs4 import BeautifulSoup
 import bs4
+from bs4 import BeautifulSoup
+from httpx import AsyncClient
 from user_agent import generate_user_agent
+
+from tracking_post.schemas import HourMinute, ShipmentStatus, TrackingResult
 
 
 async def get_viewstate(client: AsyncClient, tracking_code: str) -> tuple[str, str]:
@@ -84,9 +86,9 @@ async def get_tracking_post(client: AsyncClient, tracking_code: str):
     return data
 
 
-def parse_tracking_result(content: str):
+def parse_tracking_result(content: str) -> TrackingResult:
     soup = BeautifulSoup(content, "html.parser")
-    data = {"parcel": [], "tracking": []}
+    data = TrackingResult()
 
     # get tracking data
     tracking_info = soup.find(attrs={"id": "pnlResult"})
@@ -94,29 +96,54 @@ def parse_tracking_result(content: str):
         raise ValueError("can't find traking info element.")
     # get all rows
     rows = tracking_info.find_all("div", {"class": "row"})
+    shipment_date = None
     # get items of each row
     for row in rows:
-        row_items = row.select(".newtddata, .newtdheader")
+        # get the date from header
+        shipment_date_tag = row.select_one(".newtdheader")
+        if shipment_date_tag:
+            shipment_date = str(shipment_date_tag.text.strip())
+            continue
+
+        # get shipment status
+        row_items = row.select(".newtddata")
         # check is not empty
         if row_items:
             row_items = [item.text for item in row_items]
-            data["tracking"].append(row_items)
+            # create object
+            shipment_time = row_items[3].strip().split(":")
+            shipment_status = ShipmentStatus(
+                index=row_items[0],
+                status=row_items[1],
+                location=row_items[2],
+                time=HourMinute(hour=shipment_time[0], minute=shipment_time[1]),
+                date=shipment_date,
+            )
+            data.tracking_list.append(shipment_status)
 
     # get parcel info
     parcel_info = soup.find(attrs={"id": "pParcelInfo"})
     if not (parcel_info, bs4.Tag):
         raise ValueError("can't find parcel info element.")
     # get all rows
-    parcel_info_rows = parcel_info.find_all("div", {"class": "row"})
+    parcel_info_rows = parcel_info.find_all("div", {"class": "newrowdatacol"})
     # get items of each row
     for row in parcel_info_rows:
-        row_items = row.select(".newcoldata, .newcolheader")
+        row_headers = row.select(".newcolheader")
+        row_values = row.select(".newcoldata")
+
         # check is not empty
-        if row_items:
-            row_items = [item.text for item in row_items]
-            data["parcel"].append(row_items)
+        for row_header, row_value in zip(row_headers, row_values):
+            row_header = row_header.text
+            row_value = row_value.text
+            data.parcel_info.append(
+                {
+                    "key": row_header,
+                    "value": row_value,
+                }
+            )
 
     # reverse order of tacking
-    data["tracking"].reverse()
+    data.tracking_list.reverse()
 
     return data

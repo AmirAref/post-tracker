@@ -1,12 +1,11 @@
 #!/bin/env python3
 
-import json
 import asyncio
-from httpx import AsyncClient
 from argparse import ArgumentParser
 
-from tracking_post.utils import get_tracking_post
+from httpx import AsyncClient
 
+from tracking_post.utils import get_tracking_post
 
 parser = ArgumentParser(
     prog="post-tracker",
@@ -27,7 +26,7 @@ async def main():
     async with AsyncClient() as client:
         data = await get_tracking_post(client=client, tracking_code=tracking_code)
 
-    print(json.dumps(data, indent=3, ensure_ascii=False))
+    print(data.model_dump_json(indent=3))
 
 
 if __name__ == "__main__":
