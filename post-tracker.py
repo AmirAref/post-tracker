@@ -5,6 +5,7 @@ from argparse import ArgumentParser
 
 from httpx import AsyncClient
 
+from tracking_post.errors import TrackingNotFoundError
 from tracking_post.utils import get_tracking_post
 
 parser = ArgumentParser(
@@ -24,9 +25,12 @@ async def main():
 
     # get data from api
     async with AsyncClient() as client:
-        data = await get_tracking_post(client=client, tracking_code=tracking_code)
-
-    print(data.model_dump_json(indent=3))
+        try:
+            data = await get_tracking_post(client=client, tracking_code=tracking_code)
+            # output
+            print(data.model_dump_json(indent=3))
+        except TrackingNotFoundError as e:
+            print(e)
 
 
 if __name__ == "__main__":

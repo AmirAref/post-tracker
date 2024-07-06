@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from httpx import AsyncClient
 from user_agent import generate_user_agent
 
+from tracking_post.errors import TrackingNotFoundError
 from tracking_post.schemas import HourMinute, ShipmentStatus, TrackingResult
 
 
@@ -123,8 +124,8 @@ def parse_tracking_result(content: str) -> TrackingResult:
 
     # get parcel info
     parcel_info = soup.find(attrs={"id": "pParcelInfo"})
-    if not (parcel_info, bs4.Tag):
-        raise ValueError("can't find parcel info element.")
+    if not isinstance(parcel_info, bs4.Tag):
+        raise TrackingNotFoundError()
     # get all rows
     parcel_info_rows = parcel_info.find_all("div", {"class": "newrowdatacol"})
     # get items of each row
