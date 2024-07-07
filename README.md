@@ -11,13 +11,14 @@ poetry install
 ```bash
 ./post-tracker.py -h
 # or, pass your tracking code
-./post-tracker.py 123456789101111213
+./post-tracker.py -c 123456789101111213
 ```
 
 
 
 ## TODO:
 - [x] create models to better parsing the data.
-- [ ] create python telegram bot.
-- [ ] create dmenu (or fzf menu) to save tracking codes in local cache and select in future program's runs.
+- [x] create dmenu (or fzf menu) to save tracking codes in local cache and select in future program's runs.
 - [ ] ~use dataframes (or another way) to strucure the data.~
+- [ ] add installer script as a CLI tool in linux machines
+- [ ] create python telegram bot.
