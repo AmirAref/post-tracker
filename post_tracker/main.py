@@ -29,7 +29,7 @@ parser.add_argument(
 )
 
 
-def read_codes():
+def read_codes() -> list[str]:
     # check file exists
     if CODES_FILE_PATH.exists():
         with open(CODES_FILE_PATH) as file:
@@ -41,8 +41,15 @@ def read_codes():
 
 def save_new_code(code: str):
     # check file exists
-    with open(CODES_FILE_PATH, mode="a+") as file:
-        file.write("\n" + code)
+    try:
+        codes = read_codes()
+    except FileNotFoundError:
+        codes = []
+    # check not duplicate codes
+    if code not in codes:
+        codes.append(code)
+        with open(CODES_FILE_PATH, mode="w") as file:
+            file.write("\n".join(codes))
 
 
 async def main():
