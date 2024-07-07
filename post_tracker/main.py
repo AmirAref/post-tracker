@@ -8,9 +8,9 @@ from pathlib import Path
 import pydymenu
 from httpx import AsyncClient
 
-from tracking_post.cli_utils import compat_expanduser
-from tracking_post.errors import TrackingNotFoundError
-from tracking_post.utils import get_tracking_post
+from post_tracker.cli_utils import compat_expanduser
+from post_tracker.errors import TrackingNotFoundError
+from post_tracker.utils import get_tracking_post
 
 XDG_CONFIG_HOME = os.getenv("XDG_CONFIG_HOME") or compat_expanduser("~/.config")
 CODES_DIR = Path(XDG_CONFIG_HOME, "post-tracker")
@@ -67,7 +67,7 @@ async def main():
         except FileNotFoundError:
             # send error message
             parser.error(
-                "code can not be empry when there is no any cached tracking code !"
+                "code can not be empty when there is no any cached tracking code !"
             )
         choices = pydymenu.fzf(list_of_codes, prompt="Which tracking code ? ")
         if choices is None:

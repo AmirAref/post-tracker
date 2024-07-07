@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 from httpx import AsyncClient
 from user_agent import generate_user_agent
 
-from tracking_post.errors import TrackingNotFoundError
-from tracking_post.schemas import HourMinute, ShipmentStatus, TrackingResult
+from post_tracker.errors import TrackingNotFoundError
+from post_tracker.schemas import HourMinute, ShipmentStatus, TrackingResult
 
 
 async def get_viewstate(client: AsyncClient, tracking_code: str) -> tuple[str, str]:
