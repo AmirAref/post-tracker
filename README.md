@@ -19,9 +19,11 @@ poetry install
 ## TODO:
 - [x] create models to better parsing the data.
 - [x] create dmenu (or fzf menu) to save tracking codes in local cache and select in future program's runs.
-- [ ] ~use dataframes (or another way) to strucure the data.~
+- [x] add installer script as a CLI tool in linux machines
+- [ ] make and test compatibily with windows os
+- [ ] make output result prettiy.
+- [ ] write README.md in persian
 - [ ] write tests
 - [ ] publish on pypi.org
 - [ ] add CI/CD
-- [ ] add installer script as a CLI tool in linux machines
-- [ ] create python telegram bot.
+- [ ] create [python telegram bot](https://github.com/amiraref/post-tracker-bot).
