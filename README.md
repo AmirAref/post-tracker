@@ -20,6 +20,8 @@ poetry install
 - [x] create models to better parsing the data.
 - [x] create dmenu (or fzf menu) to save tracking codes in local cache and select in future program's runs.
 - [x] add installer script as a CLI tool in linux machines
+- [ ] re-write cli using click library
+- [ ] check installed external dependencies : `fzf`
 - [ ] make and test compatibily with windows os
 - [ ] make output result prettiy.
 - [ ] write README.md in persian

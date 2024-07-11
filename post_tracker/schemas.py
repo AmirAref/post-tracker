@@ -7,6 +7,9 @@ class HourMinute(BaseModel):
     hour: int = Field(default=0, ge=0, le=23)
     minute: int = Field(default=0, ge=0, le=59)
 
+    def __str__(self) -> str:
+        return f"{self.hour:02}:{self.hour:02}"
+
 
 class ShipmentStatus(BaseModel):
     index: int
