@@ -110,6 +110,10 @@ def parse_tracking_result(content: str) -> TrackingResult:
         row_items = row.select(".newtddata")
         # check is not empty
         if row_items:
+            # exclude extra info links (buttons)
+            for tg in row.select("a", {"href": "#"}):
+                tg.extract()
+
             row_items = [item.text for item in row_items]
             # create object
             shipment_time = row_items[3].strip().split(":")
