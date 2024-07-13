@@ -138,7 +138,7 @@ def parse_tracking_result(content: str) -> TrackingResult:
         row_values = row.select(".newcoldata")
 
         # check is not empty
-        for row_header, row_value in zip(row_headers, row_values):
+        for row_header, row_value in zip(row_headers, row_values, strict=False):
             row_header = row_header.text
             row_value = row_value.text
             data.parcel_info.append(
