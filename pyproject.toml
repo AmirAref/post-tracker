@@ -21,6 +21,7 @@ classifiers = [
 ]
 
 [project]
+name = "post-tracker"
 requires-python = ">=3.11"
 
 [tool.poetry.dependencies]
