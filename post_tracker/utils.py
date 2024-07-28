@@ -1,3 +1,4 @@
+from datetime import datetime
 import bs4
 from bs4 import BeautifulSoup
 from httpx import AsyncClient
@@ -82,6 +83,9 @@ async def get_tracking_post(client: AsyncClient, tracking_code: str):
 
     # parse the content
     content = response.text
+    file_name = f"{tracking_code}_{datetime.now()}.html"
+    with open(file_name, "w") as file:
+        file.write(content)
     data = parse_tracking_result(content=content)
 
     return data
@@ -94,7 +98,8 @@ def parse_tracking_result(content: str) -> TrackingResult:
     # get tracking data
     tracking_info = soup.find(attrs={"id": "pnlResult"})
     if not (tracking_info, bs4.Tag):
-        raise ValueError("can't find traking info element.")
+        # TODO : not sure about this
+        raise TrackingNotFoundError()
     # get all rows
     rows = tracking_info.find_all("div", {"class": "row"})
     shipment_date = None
@@ -128,25 +133,24 @@ def parse_tracking_result(content: str) -> TrackingResult:
 
     # get parcel info
     parcel_info = soup.find(attrs={"id": "pParcelInfo"})
-    if not isinstance(parcel_info, bs4.Tag):
-        raise TrackingNotFoundError()
-    # get all rows
-    parcel_info_rows = parcel_info.find_all("div", {"class": "newrowdatacol"})
-    # get items of each row
-    for row in parcel_info_rows:
-        row_headers = row.select(".newcolheader")
-        row_values = row.select(".newcoldata")
+    if isinstance(parcel_info, bs4.Tag):
+        # get all rows
+        parcel_info_rows = parcel_info.find_all("div", {"class": "newrowdatacol"})
+        # get items of each row
+        for row in parcel_info_rows:
+            row_headers = row.select(".newcolheader")
+            row_values = row.select(".newcoldata")
 
-        # check is not empty
-        for row_header, row_value in zip(row_headers, row_values, strict=False):
-            row_header = row_header.text
-            row_value = row_value.text
-            data.parcel_info.append(
-                {
-                    "key": row_header,
-                    "value": row_value,
-                }
-            )
+            # check is not empty
+            for row_header, row_value in zip(row_headers, row_values, strict=False):
+                row_header = row_header.text
+                row_value = row_value.text
+                data.parcel_info.append(
+                    {
+                        "key": row_header,
+                        "value": row_value,
+                    }
+                )
 
     # reverse order of tacking
     data.tracking_list.reverse()
