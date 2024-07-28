@@ -1,4 +1,3 @@
-from datetime import datetime
 import bs4
 from bs4 import BeautifulSoup
 from httpx import AsyncClient
@@ -6,6 +5,8 @@ from user_agent import generate_user_agent
 
 from post_tracker.errors import TrackingNotFoundError
 from post_tracker.schemas import HourMinute, ShipmentStatus, TrackingResult
+
+# FIXME : setup logging
 
 
 async def get_viewstate(client: AsyncClient, tracking_code: str) -> tuple[str, str]:
@@ -83,9 +84,6 @@ async def get_tracking_post(client: AsyncClient, tracking_code: str):
 
     # parse the content
     content = response.text
-    file_name = f"{tracking_code}_{datetime.now()}.html"
-    with open(file_name, "w") as file:
-        file.write(content)
     data = parse_tracking_result(content=content)
 
     return data
