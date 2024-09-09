@@ -1,5 +1,5 @@
 class TrackingNotFoundError(Exception):
-    def __init__(self, tracking_code: str | None = None):
+    def __init__(self, tracking_code: str | None = None) -> None:
         if tracking_code is None:
             error_message = "tracking information not found!"
         else:

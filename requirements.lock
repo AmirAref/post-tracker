@@ -38,12 +38,10 @@ pydantic==2.8.2
     # via post-tracker
 pydantic-core==2.20.1
     # via pydantic
-pydymenu==0.5.2
-    # via post-tracker
 pygments==2.18.0
     # via rich
-rich==13.7.1
-    # via pydymenu
+rich==13.8.0
+    # via post-tracker
 six==1.16.0
     # via user-agent
 sniffio==1.3.1
