@@ -35,7 +35,7 @@ A command-line tool to get information about parcel's tracking from https://trac
   <br/>
 
   <a href="#">
-      <img src="https://raw.githubusercontent.com/amiraref/post-tracker/master/images/output-2.png?raw=true" alt="Screenshot" height="500" style="border-radius: 20px;">
+      <img src="https://raw.githubusercontent.com/amiraref/post-tracker/master/images/output-2.png?raw=true" alt="Screenshot" height="500" style="border-radius: 5px;">
   </a>
 
 </div>
@@ -77,7 +77,7 @@ there is also a telegram robot developed based on this library to get parcel's t
 
 Contributions are what makes the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-Here is the [Contributing Guidelines](https://github.com/amiraref/post-tracker/blob/master/CONTRIBUTING.rst).
+Here is the [Contributing Guidelines](https://github.com/amiraref/post-tracker/blob/master/CONTRIBUTING.md).
 Don't forget to give the project a star! Thanks again!
 
 <br/>
