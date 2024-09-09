@@ -1,6 +1,9 @@
 # custom
 *.html
 poetry.lock
+*.whl
+dist/*
+*.json
 
 
 # Byte-compiled / optimized / DLL files

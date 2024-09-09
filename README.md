@@ -20,20 +20,22 @@
 <br />
 
 <div align="center">
-  
+
   <h2 align="center">Post Tracker</h2>
 
   <p align="center">
 A command-line tool to get information about parcel's tracking from https://tracking.post.ir
   </p>
-    
+
   <a href="https://github.com/amiraref/post-tracker/issues">Report Bug</a>
   ·
   <a href="https://github.com/amiraref/post-tracker/issues">Request Feature</a>
-    
+
+
+  <br/>
 
   <a href="#">
-      <img src="https://github.com/user-attachments/assets/36eaa743-7215-4c4e-9999-4706a6bc8448?raw=true" alt="Screenshot" height="500" style="border-radius: 20px;">
+      <img src="https://raw.githubusercontent.com/amiraref/post-tracker/master/images/output-2.png?raw=true" alt="Screenshot" height="500" style="border-radius: 20px;">
   </a>
 
 </div>
@@ -55,14 +57,14 @@ after install, just write `post-tracker` command to access to program :
 post-tracker -h
 # or, pass your tracking code
 post-tracker -c 123456789101111213
-```  
+```
 
 <br/>
 
 ## Telegram Bot:
-there is also a telegram robot developed based on this library to get parcel's tracking information in **telegram** :  
+there is also a telegram robot developed based on this library to get parcel's tracking information in **telegram**:
 
-[Repository](https://github.com/amirAref/post-tracker-bot) 
+[Repository](https://github.com/amirAref/post-tracker-bot)
 .
 [Robot](https://t.me/IRPostTrackerbot)
 
@@ -76,7 +78,7 @@ there is also a telegram robot developed based on this library to get parcel's t
 Contributions are what makes the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 Here is the [Contributing Guidelines](https://github.com/amiraref/post-tracker/blob/master/CONTRIBUTING.rst).
-Don't forget to give the project a star! Thanks again!  
+Don't forget to give the project a star! Thanks again!
 
 <br/>
 
