@@ -1,6 +1,6 @@
 [project]
 name = "post-tracker"
-version = "0.1.2"
+version = "0.2.0"
 description = "this is a command line tool to get tracking information about your parcels from tracking.post.ir"
 authors = [
     { name = "Amir Aref", email = "amiraref808@gmail.com" }
@@ -11,6 +11,7 @@ dependencies = [
     "pydantic>=2.8.2",
     "pydymenu>=0.5.2",
     "bs4>=0.0.2",
+    "rich>=13.8.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.11"
@@ -63,5 +64,5 @@ select = [
     "ARG001", # unused arguments in functions
     "ASYNC", # flake8 async
     "LOG", # flake8 logging
-     # "ANN" # flake8 annotations,
+     "ANN" # flake8 annotations,
 ]

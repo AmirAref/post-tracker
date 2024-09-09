@@ -42,7 +42,8 @@ pydymenu==0.5.2
     # via post-tracker
 pygments==2.18.0
     # via rich
-rich==13.7.1
+rich==13.8.0
+    # via post-tracker
     # via pydymenu
 six==1.16.0
     # via user-agent
