@@ -31,7 +31,7 @@ async def get_viewstate(client: AsyncClient, tracking_code: str) -> tuple[str, s
     return viewstate, event_validation  # noqa
 
 
-async def get_tracking_post(client: AsyncClient, tracking_code: str):
+async def get_tracking_post(client: AsyncClient, tracking_code: str) -> TrackingResult:
     url = f"https://tracking.post.ir/search.aspx?id={tracking_code}"
 
     # get view state value
@@ -95,7 +95,7 @@ def parse_tracking_result(content: str) -> TrackingResult:
 
     # get tracking data
     tracking_info = soup.find(attrs={"id": "pnlResult"})
-    if not (tracking_info, bs4.Tag):
+    if not isinstance(tracking_info, bs4.Tag):
         # TODO : not sure about this
         raise TrackingNotFoundError()
     # get all rows

@@ -1,6 +1,6 @@
 [project]
 name = "post-tracker"
-version = "0.2.1-post1"
+version = "0.2.2"
 description = "this is a command line tool to get tracking information about your parcels from tracking.post.ir"
 authors = [
     { name = "Amir Aref", email = "amiraref808@gmail.com" }
@@ -14,7 +14,7 @@ dependencies = [
     "rich>=13.8.0",
 ]
 readme = "README.md"
-requires-python = ">= 3.11"
+requires-python = ">= 3.9"
 license = "MIT"
 repository = "https://github.com/AmirAref/post-tracker"
 homepage = "https://github.com/AmirAref/post-tracker"
@@ -47,9 +47,8 @@ allow-direct-references = true
 [tool.hatch.build.targets.wheel]
 packages = ["post_tracker"]
 
-
-[tool.ruff]
-target-version = "py311"
+[tool.behavior]
+use-uv = true
 
 [tool.ruff.lint]
 select = [
@@ -66,3 +65,6 @@ select = [
     "LOG", # flake8 logging
      "ANN" # flake8 annotations,
 ]
+unfixable = []
+
+ignore = ["ANN101"]
