@@ -5,7 +5,7 @@ import os
 from argparse import ArgumentParser
 from pathlib import Path
 
-import pydymenu
+# import pydymenu
 from httpx import AsyncClient
 from rich.console import Console
 from rich.table import Table
@@ -26,8 +26,8 @@ parser.add_argument(
     "-c",
     "--code",
     help="tracking code to get data from tracking.post.ir",
-    required=False,
-    default=None,
+    required=True,
+    # default=None,
 )
 
 
@@ -62,30 +62,31 @@ async def main() -> None:
         pass
     # get tracking code from args
     args = parser.parse_args()
-    tracking_code_arg: str | None = args.code
+    tracking_code: str = args.code
 
+    # TODO: remove pydemnu fzf temporarily to find a better library/approach
     # check code is passed or not
-    if tracking_code_arg is None:
-        # load from file
-        # read cached codes and load list of codes
-        try:
-            list_of_codes = read_codes()
-            # check list is not empty
-            if not list_of_codes:
-                raise FileNotFoundError()
-        except FileNotFoundError:
-            # send error message
-            parser.error(
-                "code can not be empty when there is no any cached tracking code !"
-            )
-        choices = pydymenu.fzf(list_of_codes, prompt="Which tracking code ? ")
-        if choices is None:
-            return print("exit the program !")
-        tracking_code: str = choices[0]
-    else:
-        # save to file
-        tracking_code = tracking_code_arg
-        save_new_code(code=tracking_code)
+    # if tracking_code_arg is None:
+    #     # load from file
+    #     # read cached codes and load list of codes
+    #     try:
+    #         list_of_codes = read_codes()
+    #         # check list is not empty
+    #         if not list_of_codes:
+    #             raise FileNotFoundError()
+    #     except FileNotFoundError:
+    #         # send error message
+    #         parser.error(
+    #             "code can not be empty when there is no any cached tracking code !"
+    #         )
+    #     choices = pydymenu.fzf(list_of_codes, prompt="Which tracking code ? ")
+    #     if choices is None:
+    #         return print("exit the program !")
+    #     tracking_code: str = choices[0]
+    # else:
+    #     # save to file
+    #     tracking_code = tracking_code_arg
+    #     save_new_code(code=tracking_code)
 
     # get data from api
     table = Table(title="وضعیت مرسوله پستی", show_lines=True, header_style="white bold")

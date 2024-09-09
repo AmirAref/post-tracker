@@ -1,6 +1,6 @@
 [project]
 name = "post-tracker"
-version = "0.2.0"
+version = "0.2.1"
 description = "this is a command line tool to get tracking information about your parcels from tracking.post.ir"
 authors = [
     { name = "Amir Aref", email = "amiraref808@gmail.com" }
@@ -9,7 +9,7 @@ dependencies = [
     "httpx>=0.27.0",
     "user-agent>=0.1.10",
     "pydantic>=2.8.2",
-    "pydymenu>=0.5.2",
+    # "pydymenu>=0.5.2",
     "bs4>=0.0.2",
     "rich>=13.8.0",
 ]
