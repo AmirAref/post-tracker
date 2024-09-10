@@ -1,6 +1,6 @@
 [project]
 name = "post-tracker"
-version = "0.2.2.post1"
+version = "0.2.3"
 description = "this is a command line tool to get tracking information about your parcels from tracking.post.ir"
 authors = [
     { name = "Amir Aref", email = "amiraref808@gmail.com" }
