@@ -1,6 +1,6 @@
 [project]
 name = "post-tracker"
-version = "0.2.3"
+version = "0.2.3.post1"
 description = "this is a command line tool to get tracking information about your parcels from tracking.post.ir"
 authors = [
     { name = "Amir Aref", email = "amiraref808@gmail.com" }
@@ -16,8 +16,6 @@ dependencies = [
 readme = "README.md"
 requires-python = ">= 3.9"
 license = "MIT"
-repository = "https://github.com/AmirAref/post-tracker"
-homepage = "https://github.com/AmirAref/post-tracker"
 classifiers = [
     "Development Status :: 4 - Beta",
     # "Typing :: Typed",
@@ -29,6 +27,12 @@ classifiers = [
     "Programming Language :: Python :: 3",
 
 ]
+
+
+
+[project.urls]
+Repository = "https://github.com/AmirAref/post-tracker"
+Homepage = "https://github.com/AmirAref/post-tracker"
 
 [project.scripts]
 post-tracker = 'post_tracker.__main__:main'
