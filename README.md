@@ -4,7 +4,7 @@
 
 [![PyPI - Version][pypi-version-shields]][pypi-url]
 [![PyPI - Python Version][pypi-python-versions-shields]][pypi-url]
-<!--[![Downloads](https://static.pepy.tech/badge/post-tracker)][pypi-url] -->
+[![Downloads](https://static.pepy.tech/badge/post-tracker)][pypi-url]
 
 <!--[![Contributors][contributors-shield]][contributors-url]-->
 <!-- [![Forks][forks-shield]][forks-url]-->
@@ -97,8 +97,8 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/amiraref/p
 - [x] add installer script as a CLI tool in linux machines.
 - [x] create [python telegram bot](https://github.com/amiraref/post-tracker-bot).
 - [x] make output result prettiy.
+- [x] publish on pypi.org
 - [ ] write README.md in persian
-- [ ] publish on pypi.org
 - [ ] re-write cli using click library
 - [ ] write tests
 - [ ] add CI/CD
