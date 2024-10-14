@@ -50,8 +50,34 @@ pip install post-tracker
 
 <br/>
 
-## Usage
-after install, just write `post-tracker` command to access to program :
+## Using as a library
+To use the `post_tracker` as a library in your projects, do as following :
+
+```python
+import asyncio
+from post_tracker import PostTracker
+from post_tracker.errors import TrackingNotFoundError
+
+async def main():
+    code = "12345" # tracking code
+    async with PostTracker() as tracker_app:
+        try:
+            # get tracking data
+            result = await tracker_app.get_tracking_post(tracking_code=code)
+            print(result)
+        except TrackingNotFoundError as e:
+            # tracking data not found
+            return print(e)
+
+
+asyncio.run(main())
+```
+
+<br/>
+
+
+## Using as a CLI tool
+After install, just write `post-tracker` command to access to program :
 ```bash
 # get help
 post-tracker -h
@@ -97,13 +123,12 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/amiraref/p
 - [x] add installer script as a CLI tool in linux machines.
 - [x] create [python telegram bot](https://github.com/amiraref/post-tracker-bot).
 - [x] make output result prettiy.
+- [x] make and test compatibily with windows os
 - [x] publish on pypi.org
 - [ ] write README.md in persian
 - [ ] re-write cli using click library
 - [ ] write tests
 - [ ] add CI/CD
-- [ ] check installed external dependencies : `fzf`
-- [ ] make and test compatibily with windows os
 
 
 
