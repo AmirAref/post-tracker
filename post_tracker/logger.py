@@ -8,9 +8,16 @@ from typing import Literal
 
 LOG_LEVEL_LITERAL = Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 DEFAULT_LOGGING_FORMAT: str = "{asctime} [{levelname}] - {name} : {message}"
-DEFAULT_LOG_LEVEL: LOG_LEVEL_LITERAL | None = None
+DEFAULT_LOG_LEVEL: LOG_LEVEL_LITERAL | None = "DEBUG"
 
-logging.basicConfig(format=DEFAULT_LOGGING_FORMAT, style="{")
+
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(
+    logging.Formatter(
+        fmt=DEFAULT_LOGGING_FORMAT,
+        style="{",
+    ),
+)
 
 
 def get_logger(
@@ -37,9 +44,19 @@ def get_logger(
 
     # create logger
     logger = logging.getLogger(name=_logger_name)
+
+    # Disable propagation to avoid duplicate logs
+    logger.propagate = False
+    # Remove all existing handlers before adding the custom one
+    if logger.hasHandlers():
+        logger.handlers.clear()
+
+    logger.addHandler(stream_handler)
+
     # set log level
     if log_level is not None:
         logger.setLevel(log_level)
+
     logging.debug(f"logger created {logger}")
 
     return logger
