@@ -1,12 +1,12 @@
 import bs4
 from bs4 import BeautifulSoup
 from httpx import AsyncClient
-from user_agent import generate_user_agent
 
+from post_tracker.custom_types import HourMinute, ShipmentStatus, TrackingResult
 from post_tracker.errors import TrackingNotFoundError
-from post_tracker.schemas import HourMinute, ShipmentStatus, TrackingResult
+from post_tracker.logger import get_logger
 
-# FIXME : setup logging
+logger = get_logger(name=__name__)
 
 
 async def get_viewstate(client: AsyncClient, tracking_code: str) -> tuple[str, str]:
@@ -29,64 +29,6 @@ async def get_viewstate(client: AsyncClient, tracking_code: str) -> tuple[str, s
     event_validation = validation_tag["value"]
 
     return viewstate, event_validation  # noqa
-
-
-async def get_tracking_post(client: AsyncClient, tracking_code: str) -> TrackingResult:
-    url = f"https://tracking.post.ir/search.aspx?id={tracking_code}"
-
-    # get view state value
-    viewstate, event_validation = await get_viewstate(
-        client=client, tracking_code=tracking_code
-    )
-    # get random user agent
-    user_agent = generate_user_agent()
-
-    payload = {
-        "scripmanager1": "pnlMain|btnSearch",
-        "__LASTFOCUS": "",
-        "txtbSearch": tracking_code,
-        "txtVoteReason": "",
-        "txtVoteTel": "",
-        "__EVENTTARGET": "btnSearch",
-        "__EVENTARGUMENT": "",
-        "__VIEWSTATE": viewstate,
-        "__VIEWSTATEGENERATOR": "BBBC20B8",
-        "__VIEWSTATEENCRYPTED": "",
-        "__EVENTVALIDATION": event_validation,
-        "__ASYNCPOST": "true",
-        "": "",
-    }
-
-    headers = {
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br, zstd",
-        "Accept-Language": "en-US,en;q=0.5",
-        "Cache-Control": "no-cache",
-        "Connection": "keep-alive",
-        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-        "Host": "tracking.post.ir",
-        "Origin": "https://tracking.post.ir",
-        "Referer": f"https://tracking.post.ir/search.aspx?id={tracking_code}",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-origin",
-        "User-Agent": user_agent,
-        "X-MicrosoftAjax": "Delta=true",
-        "X-Requested-With": "XMLHttpRequest",
-    }
-
-    response = await client.post(
-        url,
-        data=payload,
-        headers=headers,
-        follow_redirects=True,
-    )
-
-    # parse the content
-    content = response.text
-    data = parse_tracking_result(content=content)
-
-    return data
 
 
 def parse_tracking_result(content: str) -> TrackingResult:

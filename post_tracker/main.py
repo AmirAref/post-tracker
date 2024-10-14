@@ -5,13 +5,12 @@ import os
 from argparse import ArgumentParser
 from pathlib import Path
 
-from httpx import AsyncClient
 from rich.console import Console
 from rich.table import Table
 
+from post_tracker import PostTracker
 from post_tracker.cli_utils import compat_expanduser
 from post_tracker.errors import TrackingNotFoundError
-from post_tracker.utils import get_tracking_post
 
 XDG_CONFIG_HOME = os.getenv("XDG_CONFIG_HOME") or compat_expanduser("~/.config")
 CODES_DIR = Path(XDG_CONFIG_HOME, "post-tracker")
@@ -66,9 +65,9 @@ async def main() -> None:
     table.add_column("زمان", justify="center", style="spring_green2")
     table.add_column("تاریخ", justify="right", style="spring_green2")
     table.add_column("ردیف", justify="center", style="white bold")
-    async with AsyncClient() as client:
+    async with PostTracker() as tracker_app:
         try:
-            data = await get_tracking_post(client=client, tracking_code=tracking_code)
+            data = await tracker_app.get_tracking_post(tracking_code=tracking_code)
             # output
         except TrackingNotFoundError as e:
             return print(e)
