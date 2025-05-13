@@ -1,4 +1,5 @@
 import bs4
+import httpx
 from bs4 import BeautifulSoup
 from httpx import AsyncClient
 
@@ -7,6 +8,7 @@ from post_tracker.errors import TrackingNotFoundError
 from post_tracker.logger import get_logger
 
 logger = get_logger(name=__name__)
+httpx._config.DEFAULT_CIPHERS += ":HIGH:!DH:!aNULL"
 
 
 async def get_viewstate(client: AsyncClient, tracking_code: str) -> tuple[str, str]:
